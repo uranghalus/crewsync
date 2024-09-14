@@ -10,10 +10,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { RegisterSchema } from '@/lib/schema/auth-schema';
+import { RegisterService } from '@/lib/services/auth-services';
 import { zodResolver } from '@hookform/resolvers/zod';
 // import Link from 'next/link';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
+import { RiLoader2Line } from 'react-icons/ri';
+import { toast } from 'sonner';
 // import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -33,8 +36,19 @@ const SignupForm = () => {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     // setError('');
     // setSuccess('');
-    startTransition(() => {
-      console.log(values);
+    startTransition(async () => {
+      await RegisterService(values).then((data) => {
+        if (data.status === 500) {
+          toast.error('Registrasi Gagal!', {
+            description: data.message,
+          });
+        } else {
+          toast.success('Registrasi Berhasil!', {
+            description: data.message,
+          });
+        }
+        form.reset();
+      });
     });
   };
   return (
@@ -99,7 +113,13 @@ const SignupForm = () => {
           className="w-full"
           type="submit"
         >
-          Sign In
+          {isPending ? (
+            <>
+              <RiLoader2Line className="size-5 text-white mr-2" /> Mohong Tunggu
+            </>
+          ) : (
+            'Daftar'
+          )}
         </Button>
       </form>
     </Form>

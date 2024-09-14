@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { MontserratFont } from '@/lib/fonts';
+import ToastProvider from '@/components/providers/toast-provider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${MontserratFont.variable} font-normal antialiased`}>
+        <ToastProvider />
         {children}
       </body>
     </html>
