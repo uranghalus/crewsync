@@ -14,9 +14,17 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import { LoginService } from '@/lib/services/auth-services';
+import { toast } from 'sonner';
+import { useSearchParams } from 'next/navigation';
 
 const SigninForm = () => {
   const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get('error') === '0AuthAccountNotLinked'
+      ? 'Email telah dipakai dengan provider berbeda'
+      : '';
   // const [error, setError] = useState<string | undefined>('');
   // const [success, setSuccess] = useState<string | undefined>('');
 
@@ -27,8 +35,21 @@ const SigninForm = () => {
       password: '',
     },
   });
-  const onSubmit = () => {
-    startTransition(() => {});
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    startTransition(async () => {
+      await LoginService(values).then((data) => {
+        if (data?.status === 500) {
+          toast.error('Login Gagal!', {
+            description: data?.message || urlError,
+          });
+        } else {
+          toast.success('Yeay!!', {
+            description: data?.message || 'Login Berhasil',
+          });
+        }
+        form.reset();
+      });
+    });
   };
   return (
     <Form {...form}>

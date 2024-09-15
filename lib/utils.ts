@@ -35,3 +35,11 @@ export async function comparePassword(
 export function md5hash(text: string) {
   return createHash('md5').update(text).digest('hex');
 }
+export function getInitials(name: string): string {
+  if (!name) return '';
+
+  const words = name.trim().split(' ');
+  const initials = words.map((word) => word[0].toUpperCase()).join('');
+
+  return initials;
+}

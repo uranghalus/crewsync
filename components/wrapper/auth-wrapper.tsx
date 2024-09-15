@@ -5,9 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { Card, CardContent, CardHeader } from '../ui/card';
-import { Button } from '../ui/button';
-import { FcGoogle } from 'react-icons/fc';
-import { RiFacebookFill } from 'react-icons/ri';
+import SocialMedia from '../social-media';
 
 interface CardWrapper extends ChildrenProps {
   backButtonLabel: string;
@@ -68,15 +66,7 @@ const AuthWrapper: React.FC<CardWrapper> = ({
 
               <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/5"></span>
             </div>
-            <div className="flex items-center mt-6 gap-3">
-              <Button variant={'outline'} className="w-full">
-                <FcGoogle className="w-4 h-4 mx-2 fill-current" /> Sign in with
-                Google
-              </Button>
-              <Button size={'icon'} variant={'tertiary'}>
-                <RiFacebookFill className="w-5 h-5 fill-current" />
-              </Button>
-            </div>
+            <SocialMedia />
 
             <p className="mt-8 text-xs font-medium text-center text-gray-600">
               {backButtonHeader}
