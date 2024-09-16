@@ -13,17 +13,23 @@ import { RegisterSchema } from '@/lib/schema/auth-schema';
 import { RegisterService } from '@/lib/services/auth-services';
 import { zodResolver } from '@hookform/resolvers/zod';
 // import Link from 'next/link';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { RiLoader2Line } from 'react-icons/ri';
-import { toast } from 'sonner';
+import {
+  RiErrorWarningLine,
+  RiLoader2Line,
+  RiShieldCheckLine,
+} from 'react-icons/ri';
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+// import { toast } from 'sonner';
 // import { toast } from 'sonner';
 import { z } from 'zod';
 
 const SignupForm = () => {
   const [isPending, startTransition] = useTransition();
-  //   const [error, setError] = useState<string | undefined>('');
-  //   const [success, setSuccess] = useState<string | undefined>('');
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -34,18 +40,20 @@ const SignupForm = () => {
     },
   });
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    // setError('');
-    // setSuccess('');
+    setError('');
+    setSuccess('');
     startTransition(async () => {
       await RegisterService(values).then((data) => {
-        if (data.status === 500) {
-          toast.error('Registrasi Gagal!', {
-            description: data.message,
-          });
+        if (data?.status === 500) {
+          // toast.error('Registrasi Gagal!', {
+          //   description: data?.message,
+          // });
+          setError(data.message);
         } else {
-          toast.success('Registrasi Berhasil!', {
-            description: data.message,
-          });
+          // toast.success('Registrasi Berhasil!', {
+          //   description: data?.message,
+          // });
+          setSuccess(data.message);
         }
         form.reset();
       });
@@ -54,6 +62,17 @@ const SignupForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {(error || success) && (
+          <Alert variant={error ? 'destructive' : 'success'}>
+            {error ? (
+              <RiErrorWarningLine className="h-4 w-4" />
+            ) : (
+              <RiShieldCheckLine className="h-4 w-4" />
+            )}
+            <AlertTitle>{error ? 'Oops!' : 'Yeay!'}</AlertTitle>
+            <AlertDescription>{error || success}</AlertDescription>
+          </Alert>
+        )}
         <div className="space-y-2">
           <FormField
             control={form.control}

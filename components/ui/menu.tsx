@@ -15,7 +15,7 @@ import {
   TooltipContent,
   TooltipProvider,
 } from '@/components/ui/tooltip';
-import { RiArrowDropRightLine, RiLogoutBoxLine } from 'react-icons/ri';
+import { RiArrowDropRightLine } from 'react-icons/ri';
 import CollapseMenuButton from './collapse-menu-button';
 
 interface MenuProps {
@@ -64,7 +64,10 @@ export function Menu({ isOpen }: MenuProps) {
                               className="w-full justify-start h-10 mb-1"
                               asChild
                             >
-                              <Link href={href}>
+                              <Link
+                                href={href}
+                                className={active ? 'text-primary' : ''}
+                              >
                                 <span
                                   className={cn(isOpen === false ? '' : 'mr-4')}
                                 >

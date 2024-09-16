@@ -26,9 +26,9 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: '',
       menus: [
         {
-          href: '/overview',
+          href: '/admin',
           label: 'Dashboard',
-          active: pathname.includes('/overview'),
+          active: pathname.includes('/admin'),
           icon: RiDashboardHorizontalLine,
           submenus: [],
         },

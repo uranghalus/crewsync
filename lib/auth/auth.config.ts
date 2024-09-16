@@ -3,7 +3,7 @@ import Google from 'next-auth/providers/google';
 import Github from 'next-auth/providers/github';
 import Credentials from 'next-auth/providers/credentials';
 import { LoginSchema } from '../schema/auth-schema';
-import { getUserByEmail, getUserById } from '../data/user';
+import { getUserByEmail } from '../data/user';
 import { comparePassword } from '../utils';
 import { prisma } from '../prisma';
 export default {
@@ -44,15 +44,15 @@ export default {
     },
   },
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider !== 'credentials') return true;
-      const existingUser = await getUserById(user.id as string);
+    // async signIn({ user, account }) {
+    //   if (account?.provider !== 'credentials') return true;
+    //   const existingUser = await getUserById(user.id as string);
 
-      if (!existingUser?.emailVerified) return false;
+    //   if (!existingUser?.emailVerified) return false;
 
-      // Todo
-      return true;
-    },
+    //   // Todo
+    //   return true;
+    // },
     async session({ token, session }) {
       console.log('Session Token:', token);
       return session;

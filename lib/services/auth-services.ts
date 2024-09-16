@@ -8,8 +8,8 @@ import { prisma } from '../prisma';
 import { signIn, signOut } from '../auth/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '../routes';
 import { AuthError } from 'next-auth';
-import { generateVerificationToken } from '../tokens';
-import { sendVerificationEmail } from '../mail';
+// import { generateVerificationToken } from '../tokens';
+// import { sendVerificationEmail } from '../mail';
 
 export const RegisterService = async (
   values: z.infer<typeof RegisterSchema>
@@ -43,12 +43,13 @@ export const RegisterService = async (
     return { status: 500, message: 'Pendaftaran Gagal.' };
   }
 
-  const verificationToken = await generateVerificationToken(email);
-  if (verificationToken) {
-    await sendVerificationEmail(email, verificationToken.token);
+  // const verificationToken = await generateVerificationToken(email);
+  // if (verificationToken) {
+  //   await sendVerificationEmail(email, verificationToken.token);
 
-    return { status: 200, message: 'Konfirmasi email telah terkirim' };
-  }
+  //   return { status: 200, message: 'Konfirmasi email telah terkirim' };
+  // }
+  return { status: 200, message: 'Berhasil Registrasi!' };
 };
 
 export const LoginService = async (values: z.infer<typeof LoginSchema>) => {
@@ -62,13 +63,13 @@ export const LoginService = async (values: z.infer<typeof LoginSchema>) => {
     if (!existingUser || !existingUser.email) {
       return { status: 500, message: 'Email tidak ditemukan' };
     }
-    if (!existingUser.emailVerified) {
-      const verificationToken = await generateVerificationToken(
-        existingUser.email
-      );
-      if (verificationToken)
-        return { status: 200, message: 'Email Konfirmasi Telah Terkirim!' };
-    }
+    // if (!existingUser.emailVerified) {
+    //   const verificationToken = await generateVerificationToken(
+    //     existingUser.email
+    //   );
+    //   if (verificationToken)
+    //     return { status: 200, message: 'Email Konfirmasi Telah Terkirim!' };
+    // }
     await signIn('credentials', {
       email: email,
       password: password,
