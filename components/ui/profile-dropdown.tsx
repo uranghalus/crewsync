@@ -1,4 +1,4 @@
-import { auth, signOut } from '@/lib/auth';
+import { auth, signOut } from '@/lib/auth/auth';
 import React from 'react';
 
 import { RiLogoutBoxLine, RiUser2Line } from 'react-icons/ri';
