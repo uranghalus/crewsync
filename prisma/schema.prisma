@@ -36,15 +36,15 @@ model User {
   salt          String?
   role          ROLE      @default(USER)
 
-  departmentId Int
+  departmentId Int?
   accounts     Account[]
 
   // Optional for WebAuthn support
   // Authenticator Authenticator[]
 
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  department Department @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  department Department? @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Account {
