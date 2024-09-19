@@ -63,7 +63,7 @@ const SignupForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {(error || success) && (
-          <Alert variant={error ? 'destructive' : 'success'}>
+          <Alert variant={error ? 'destructive' : 'success'} className="my-3">
             {error ? (
               <RiErrorWarningLine className="h-4 w-4" />
             ) : (
