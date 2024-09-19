@@ -26,8 +26,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { RiEdit2Line, RiEditBoxLine } from 'react-icons/ri';
 import { Input } from '@/components/ui/input';
+import { RiEditBoxLine } from 'react-icons/ri';
 interface HandleEditProps {
   department: Department;
   onSave: () => void;
@@ -67,7 +67,7 @@ const ModalEditDepartment: React.FC<HandleEditProps> = ({
         mutate('/api/department');
         onSave(); // Notify parent component to revalidate data
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Edit Department Error:', error);
     }
   };
@@ -113,7 +113,6 @@ const ModalEditDepartment: React.FC<HandleEditProps> = ({
                   className="mt-4"
                   type="submit"
                   variant={'default'}
-                  size={'block'}
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? (

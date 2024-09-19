@@ -23,9 +23,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
   RiAddCircleLine,
-  RiLockPasswordFill,
-  RiMailFill,
-  RiUser2Fill,
+  // RiUser2Fill,
 } from 'react-icons/ri';
 import { BeatLoader } from 'react-spinners';
 import { toast } from 'sonner';
@@ -67,7 +65,7 @@ const ModallAddDepartment = () => {
 
         form.reset();
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Register Action Error:', error);
     }
   };
@@ -104,7 +102,7 @@ const ModallAddDepartment = () => {
                       <FormControl>
                         <Input
                           placeholder="Masukkan Nama"
-                          icons={RiUser2Fill}
+                          // icons={RiUser2Fill}
                           {...field}
                         />
                       </FormControl>
@@ -117,7 +115,7 @@ const ModallAddDepartment = () => {
                   className="mt-4"
                   type="submit"
                   variant={'default'}
-                  size={'block'}
+                  // size={'block'}
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? (

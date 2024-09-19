@@ -1,12 +1,5 @@
 import { RiMenu4Line } from 'react-icons/ri';
 import { Button } from './button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from './card';
 import { Menu } from './menu';
 import { Sheet, SheetContent, SheetTrigger } from './sheet';
 import { UserNav } from './user-nav';

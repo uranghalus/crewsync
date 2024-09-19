@@ -9,7 +9,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 import React from 'react';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { toast } from 'sonner';
@@ -41,7 +40,7 @@ const ModalDeleteDepartment: React.FC<DeleteProps> = ({
         await mutate('/api/department'); // Revalidate the data
         onDelete(); // Notify parent component to refresh the data
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Delete Post Error:', error);
       toast.error('Delete Failed', {
         description: 'An error occurred while deleting the post.',
