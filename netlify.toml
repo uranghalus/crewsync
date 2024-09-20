@@ -3,4 +3,4 @@
 
 [build]
   publish = "/.next"
-  command = "npm run build; npx prisma generate"
+  command = "npx prisma generate && npm run build"
