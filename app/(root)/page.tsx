@@ -1,7 +1,7 @@
 import AuthWrapper from '@/components/wrapper/auth-wrapper';
 import SigninForm from './signin-form';
 
-export default function Home() {
+export default function Page() {
   return (
     <AuthWrapper
       backButtonHeader="Belum Punya Akun ?"
