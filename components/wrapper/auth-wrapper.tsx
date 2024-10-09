@@ -28,11 +28,14 @@ const AuthWrapper: React.FC<CardWrapper> = ({
           <CardHeader className="flex justify-center items-center mx-auto">
             <div className="flex justify-center items-center mx-auto">
               <Image
-                src={'/logo/Logo_192x192.png'}
+                src={
+                  'https://utfs.io/f/Law7qW5D9VWFiJA3T6XDUwICKtoSTeBzqAVc80MsFHa5O9nG'
+                }
                 alt={'Logo'}
                 className=" p-2 items-center justify-center bg-white rounded-lg shadow-md w-12"
                 width={100}
                 height={100}
+                unoptimized
               />
               <div className="ml-2 flex items-start flex-col flex-wrap">
                 <span

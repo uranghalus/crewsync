@@ -44,3 +44,9 @@ export function getInitials(name: string): string {
   return initials;
 }
 export const fetcher = (url: string) => fetch(url).then((res) => res.json());
+export function formatedText(name: string) {
+  return name
+    .split('_') // Pisahkan kata-kata berdasarkan underscore
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Ubah huruf pertama jadi kapital
+    .join(' '); // Gabungkan kembali dengan spasi
+}

@@ -15,8 +15,9 @@ datasource db {
 
 enum ROLE {
   HRD
-  USER
+  STAFF
   SPV
+  GM
   ADMIN
 }
 
@@ -27,17 +28,18 @@ enum STATUS {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  hash          String?
-  salt          String?
-  role          ROLE      @default(USER)
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  image          String?
+  hash           String?
+  salt           String?
+  role           ROLE      @default(ADMIN)
+  departmentId   Int?
+  account_status STATUS    @default(PENDING)
 
-  departmentId Int?
-  accounts     Account[]
+  accounts Account[]
 
   // Optional for WebAuthn support
   // Authenticator Authenticator[]

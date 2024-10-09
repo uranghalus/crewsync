@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../select';
+import { formatedText } from '@/lib/utils';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -85,7 +86,7 @@ export function DataTable<TData, TValue>({
               .filter((column) => column.getCanFilter())
               .map((column) => (
                 <SelectItem key={column.id} value={column.id}>
-                  {column.id}
+                  {formatedText(column.id)}
                 </SelectItem>
               ))}
           </SelectContent>
