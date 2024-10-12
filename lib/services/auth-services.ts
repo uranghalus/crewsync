@@ -22,7 +22,7 @@ export const RegisterService = async (
     };
   }
 
-  const { email, name, password } = validatedFields;
+  const { email, name, password, department, jabatan } = validatedFields;
   const { hash, salt } = await hashPassword(password);
 
   const existingUser = await getUserByEmail(email);
@@ -36,7 +36,8 @@ export const RegisterService = async (
       name: name,
       hash: hash,
       salt: salt,
-      role: 'USER',
+      role: jabatan as unknown as undefined,
+      departmentId: parseInt(department),
     },
   });
   if (!user) {

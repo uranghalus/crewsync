@@ -21,10 +21,10 @@ export const RegisterSchema = z.object({
   email: z.string().email({
     message: 'Please enter a valid email address',
   }),
-  jabatan: z.string().min(1, {
-    message: 'Jabatan Wajib Diisi',
+  jabatan: z.string({
+    required_error: 'Jabatan Wajib di isi!',
   }),
-  department: z.string().min(1, {
-    message: 'Department Wajib Diisi',
+  department: z.string({
+    required_error: 'Departemen Wajib Di isi',
   }),
 });

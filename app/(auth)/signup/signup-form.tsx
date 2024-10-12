@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import { RegisterSchema } from '@/lib/schema/auth-schema';
 import { RegisterService } from '@/lib/services/auth-services';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   RiErrorWarningLine,
@@ -30,6 +30,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { z } from 'zod';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/utils';
+
 interface Department {
   id: number;
   department_name: string;
@@ -38,17 +39,15 @@ const SignupForm = () => {
   const [isPending, startTransition] = useTransition();
   const [errors, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
+  const { data: departments, isLoading } = useSWR('/api/department', fetcher);
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: '',
       password: '',
       name: '',
-      department: 'Silahkan Pilih Departemen',
-      jabatan: 'Silahkan Pilih Jabatan',
+      // department: 'Silahkan Pilih Departemen',
+      // jabatan: 'Silahkan Pilih Jabatan',
     },
   });
 
@@ -57,6 +56,8 @@ const SignupForm = () => {
     setSuccess('');
     startTransition(async () => {
       await RegisterService(values).then((data) => {
+        console.log(data);
+
         if (data?.status === 500) {
           setError(data.message);
         } else {
@@ -66,21 +67,6 @@ const SignupForm = () => {
       });
     });
   };
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const response = await fetch('/api/department');
-        const data = await response.json();
-        setDepartments(data);
-      } catch (error) {
-        setError('Failed to load departments');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDepartments();
-  }, []);
 
   return (
     <Form {...form}>
@@ -137,20 +123,20 @@ const SignupForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Jabatan</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Silahkan Pilih Jabatan" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="SPV">Supervisor</SelectItem>
-                      <SelectItem value="STAFF">Staff</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="SPV">Supervisor</SelectItem>
+                    <SelectItem value="STAFF">Staff</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormItem>
             )}
           />
@@ -163,26 +149,37 @@ const SignupForm = () => {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    value={`${field.value}`}
                   >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Silahkan Pilih Departemen" />
-                    </SelectTrigger>
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Silahkan Pilih Departemen" />
+                      </SelectTrigger>
+                    </FormControl>
                     <SelectContent>
-                      {departments.map((department) => (
-                        <SelectItem
-                          key={department.id}
-                          value={department.id as unknown as string}
-                        >
-                          {department.department_name}
+                      {isLoading ? (
+                        <>Loading</>
+                      ) : departments && departments.length > 0 ? (
+                        departments.map((department: Department) => (
+                          <SelectItem
+                            key={department.id}
+                            value={`${department.id}`}
+                          >
+                            {department.department_name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="" disabled>
+                          Departemen tidak tersedia
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 </FormControl>
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="password"
